@@ -1,0 +1,194 @@
+diff --git a/src/main.tsx b/src/main.tsx
+--- a/src/main.tsx
++++ b/src/main.tsx
+@@ -1,12 +1,29 @@
+-import React from "react";
+-import ReactDOM from "react-dom/client";
+-import "./index.css";
+-
+-import App from "./App";
+-
+-ReactDOM.createRoot(document.getElementById("root")!).render(
+-  <React.StrictMode>
+-    <App />
+-  </React.StrictMode>
+-);
++import React from "react";
++import ReactDOM from "react-dom/client";
++import "./index.css";
++import { HashRouter as Router, Routes, Route } from "react-router-dom";
++import App from "./App";
++import About from "./pages/About";
++import Contact from "./pages/Contact";
++
++ReactDOM.createRoot(document.getElementById("root")!).render(
++  <React.StrictMode>
++    <Router>
++      <Routes>
++        <Route path="/" element={<App />} />
++        <Route path="/about" element={<About />} />
++        <Route path="/contact" element={<Contact />} />
++        <Route path="*" element={<App />} />
++      </Routes>
++    </Router>
++  </React.StrictMode>
++);
+diff --git a/src/components/Header.tsx b/src/components/Header.tsx
+--- a/src/components/Header.tsx
++++ b/src/components/Header.tsx
+@@ -1,200 +1,115 @@
+-import { Button } from "@/components/ui/button";
+-import { Menu, X, Leaf } from "lucide-react";
+-import { useState, useEffect } from "react";
+-
+-const Header = () => {
+-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+-  return (
+-    <header className="bg-eco-green-900/95 backdrop-blur-sm fixed w-full top-0 z-50 border-b border-eco-green-700 shadow-lg">
+-      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+-        <h1 className="text-2xl font-bold text-white">EcoScrap UAE</h1>
+-        <nav className="space-x-4 text-eco-green-100">
+-          <a href="#">Home</a>
+-          <a href="#">About</a>
+-          <a href="#">Contact</a>
+-        </nav>
+-      </div>
+-    </header>
+-  );
+-};
+-export default Header;
++import { Button } from "@/components/ui/button";
++import { Menu, X, Leaf } from "lucide-react";
++import { useState, useEffect } from "react";
++import { NavLink } from "react-router-dom";
++
++const Header = () => {
++  const [isMenuOpen, setIsMenuOpen] = useState(false);
++
++  // Prevent background scroll when mobile menu is open
++  useEffect(() => {
++    document.body.style.overflow = isMenuOpen ? "hidden" : "";
++    return () => { document.body.style.overflow = ""; };
++  }, [isMenuOpen]);
++
++  const items = [
++    { to: "/", label: "Home" },
++    { to: "/about", label: "About" },
++    { to: "/contact", label: "Contact" },
++  ];
++
++  return (
++    <header className="bg-eco-green-900/95 backdrop-blur-sm fixed w-full top-0 z-50 border-b border-eco-green-700 shadow-lg">
++      <div className="container mx-auto px-4 py-4">
++        <div className="flex justify-between items-center">
++          <div className="flex items-center space-x-3">
++            <Leaf className="h-8 w-8 text-eco-green-400" />
++            <h2 className="text-2xl font-bold text-white">EcoScrap UAE</h2>
++          </div>
++
++          {/* Desktop nav */}
++          <nav className="hidden md:flex items-center space-x-8 text-eco-green-100">
++            {items.map((it) => (
++              <NavLink
++                key={it.to}
++                to={it.to}
++                className={({ isActive }) =>
++                  `transition-colors ${isActive ? "text-white" : "hover:text-eco-green-400"}`
++                }
++                onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
++              >
++                {it.label}
++              </NavLink>
++            ))}
++            <Button className="bg-eco-green-500 hover:bg-eco-green-400 text-eco-green-950">
++              Get Started
++            </Button>
++          </nav>
++
++          {/* Mobile toggle */}
++          <button
++            className="md:hidden text-eco-green-100"
++            aria-expanded={isMenuOpen}
++            aria-controls="mobile-nav"
++            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
++            onClick={() => setIsMenuOpen((v) => !v)}
++          >
++            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
++          </button>
++        </div>
++
++        {/* Mobile menu */}
++        {isMenuOpen && (
++          <nav id="mobile-nav" className="md:hidden mt-4 pb-4 space-y-2">
++            {items.map((it) => (
++              <NavLink
++                key={it.to}
++                to={it.to}
++                className="block text-eco-green-100 hover:text-eco-green-400 transition-colors py-2"
++                onClick={() => {
++                  setIsMenuOpen(false);
++                  window.scrollTo({ top: 0, behavior: "smooth" });
++                }}
++              >
++                {it.label}
++              </NavLink>
++            ))}
++          </nav>
++        )}
++      </div>
++    </header>
++  );
++};
++export default Header;
+diff --git a/src/pages/About.tsx b/src/pages/About.tsx
+new file mode 100644
+--- /dev/null
++++ b/src/pages/About.tsx
+@@ -0,0 +1,38 @@
++import { useEffect } from "react";
++import { Leaf } from "lucide-react";
++
++export default function About() {
++  useEffect(() => { window.scrollTo(0, 0); }, []);
++  return (
++    <main className="pt-28 pb-20 bg-gradient-to-b from-eco-green-900 to-eco-green-950">
++      <section className="container mx-auto px-4 text-center">
++        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-eco-green-800/60 border border-eco-green-600 text-eco-green-200">
++          <Leaf className="h-4 w-4" /> About Us
++        </div>
++        <h1 className="mt-4 text-4xl font-extrabold text-white">About EcoScrap UAE</h1>
++        <p className="mt-4 text-eco-green-200 max-w-2xl mx-auto">
++          EcoScrap UAE provides sustainable, compliant, and reliable scrap
++          collection & recycling across the UAE—serving households and industry
++          with traceable, responsible processes.
++        </p>
++      </section>
++    </main>
++  );
++}
+diff --git a/src/pages/Contact.tsx b/src/pages/Contact.tsx
+new file mode 100644
+--- /dev/null
++++ b/src/pages/Contact.tsx
+@@ -0,0 +1,28 @@
++import { useEffect } from "react";
++
++export default function Contact() {
++  useEffect(() => { window.scrollTo(0, 0); }, []);
++  return (
++    <main className="pt-28 pb-20 bg-gradient-to-b from-eco-green-900 to-eco-green-950">
++      <section className="container mx-auto px-4 text-center">
++        <h1 className="text-4xl font-extrabold text-white">Contact EcoScrap UAE</h1>
++        <p className="mt-4 text-eco-green-200">
++          Email: <strong>contact@ecoscrap.ae</strong>
++        </p>
++        <p className="text-eco-green-200">
++          Phone: <strong>+971-5X-XXX-XXXX</strong>
++        </p>
++        <p className="mt-2 text-eco-green-200">
++          We’re available 7 days a week for pickups and quotes.
++        </p>
++      </section>
++    </main>
++  );
++}
