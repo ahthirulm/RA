@@ -1,0 +1,219 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Industrial Scrap Metal Design System */
+
+@layer base {
+  :root {
+    /* Core Industrial Theme */
+    --background: 220 15% 8%;
+    --foreground: 0 0% 95%;
+
+    /* Card System */
+    --card: 220 12% 12%;
+    --card-foreground: 0 0% 95%;
+
+    /* Primary Green Brand */
+    --primary: 142 76% 36%;
+    --primary-foreground: 0 0% 100%;
+    --primary-hover: 142 76% 42%;
+    --primary-glow: 142 76% 36%;
+
+    /* Secondary Industrial Grays */
+    --secondary: 220 8% 18%;
+    --secondary-foreground: 0 0% 90%;
+
+    /* Accent Colors */
+    --accent: 35 100% 50%;
+    --accent-foreground: 0 0% 10%;
+
+    /* Muted Tones */
+    --muted: 220 10% 15%;
+    --muted-foreground: 0 0% 65%;
+
+    /* Destructive */
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    /* Borders and Inputs */
+    --border: 220 8% 20%;
+    --input: 220 8% 20%;
+    --ring: 142 76% 36%;
+
+    /* Popover */
+    --popover: 220 12% 12%;
+    --popover-foreground: 0 0% 95%;
+
+    /* Radius */
+    --radius: 0.75rem;
+
+    /* Custom Industrial Colors */
+    --metal-dark: 220 15% 6%;
+    --metal-medium: 220 12% 15%;
+    --metal-light: 220 8% 25%;
+    --green-light: 142 76% 45%;
+    --green-dark: 142 76% 30%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-hover)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--metal-dark)), hsl(var(--metal-medium)));
+    --gradient-card: linear-gradient(145deg, hsl(var(--card)), hsl(var(--metal-medium)));
+
+    /* Shadows */
+    --shadow-glow: 0 0 30px hsl(var(--primary-glow) / 0.3);
+    --shadow-elegant: 0 10px 40px -10px hsl(0 0% 0% / 0.4);
+    --shadow-card: 0 8px 32px -8px hsl(0 0% 0% / 0.3);
+
+    /* Animations */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-inter antialiased;
+    background-image: 
+      radial-gradient(circle at 20% 50%, hsl(var(--primary)) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, hsl(var(--accent)) 0%, transparent 50%),
+      radial-gradient(circle at 40% 80%, hsl(var(--primary)) 0%, transparent 50%);
+    background-size: 100% 100%;
+    background-attachment: fixed;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-playfair;
+  }
+}
+
+@layer components {
+  /* Hero Button Variants */
+  .btn-hero {
+    @apply bg-gradient-to-r from-primary to-primary-hover text-primary-foreground px-8 py-4 rounded-lg font-semibold text-lg shadow-[var(--shadow-glow)] transition-[var(--transition-smooth)] hover:scale-105 hover:shadow-[var(--shadow-glow)] active:scale-95;
+  }
+
+  .btn-outline-hero {
+    @apply border-2 border-primary text-primary bg-transparent px-8 py-4 rounded-lg font-semibold text-lg transition-[var(--transition-smooth)] hover:bg-primary hover:text-primary-foreground hover:scale-105 active:scale-95;
+  }
+
+  /* Card Variants */
+  .card-industrial {
+    @apply bg-gradient-to-br from-card to-metal-medium border border-border rounded-xl shadow-[var(--shadow-card)] transition-[var(--transition-smooth)] hover:shadow-[var(--shadow-elegant)] hover:scale-[1.02];
+  }
+
+  .card-service {
+    @apply card-industrial p-8 text-center cursor-pointer;
+  }
+
+  /* Text Styling */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary to-green-light bg-clip-text text-transparent;
+  }
+
+  .text-industrial {
+    @apply text-muted-foreground leading-relaxed;
+  }
+
+  /* Section Spacing */
+  .section-padding {
+    @apply py-20 px-4;
+  }
+
+  /* Animated Elements */
+  .animate-fade-up {
+    animation: fadeUp 0.8s ease-out forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.6s ease-out forwards;
+  }
+
+  .animate-slide-right {
+    animation: slideRight 0.8s ease-out forwards;
+  }
+
+  /* Hover Effects */
+  .hover-lift {
+    @apply transition-[var(--transition-smooth)] hover:transform hover:-translate-y-2 hover:shadow-[var(--shadow-elegant)];
+  }
+
+  .hover-glow {
+    @apply transition-[var(--transition-smooth)] hover:shadow-[var(--shadow-glow)];
+  }
+}
+
+@layer utilities {
+  /* Background Utilities */
+  .bg-metal-texture {
+    background-image: 
+      linear-gradient(45deg, transparent 25%, hsl(var(--metal-light) / 0.1) 25%, hsl(var(--metal-light) / 0.1) 50%, transparent 50%, transparent 75%, hsl(var(--metal-light) / 0.1) 75%),
+      linear-gradient(-45deg, transparent 25%, hsl(var(--metal-light) / 0.05) 25%, hsl(var(--metal-light) / 0.05) 50%, transparent 50%, transparent 75%, hsl(var(--metal-light) / 0.05) 75%);
+    background-size: 60px 60px;
+  }
+
+  .bg-hero-pattern {
+    background-image: 
+      radial-gradient(circle at 25% 25%, hsl(var(--primary) / 0.1) 0%, transparent 50%),
+      radial-gradient(circle at 75% 75%, hsl(var(--accent) / 0.1) 0%, transparent 50%);
+  }
+}
+
+/* Keyframe Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 20px hsl(var(--primary-glow) / 0.4);
+  }
+  50% {
+    box-shadow: 0 0 40px hsl(var(--primary-glow) / 0.6);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
